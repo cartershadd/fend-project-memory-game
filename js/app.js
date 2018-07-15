@@ -90,10 +90,12 @@ function shuffle(array) {
 function addCard(card) {
   if (openCards.length !== 2) {
     var card = event.target;
-    card.classList.add("open", "show");
-    openCards.push(card);
-    clearTimeout(timer);
-    timer = setTimeout(matchCard, 1500);
+    if (openCards.indexOf(card) === -1 && card.tagName === "LI") {
+      card.classList.add("open", "show");
+      openCards.push(card);
+      clearTimeout(timer);
+      timer = setTimeout(matchCard, 1500);
+    }
   }
 }
 

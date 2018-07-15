@@ -7,14 +7,6 @@
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+To play the name, click on any two cards. If correct, they will stay with the icon facing up and turn green. Winning the game means getting all matches correct before running out of moves. Never fear, if you lose, the game resets once you click the popup message. The game resets after you win as well.
 
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+To run on your computer, visit https://cartershadd.github.io/fend-project-memory-game

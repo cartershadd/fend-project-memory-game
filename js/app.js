@@ -3,7 +3,8 @@
  * Resets moves and star counter
  */
 var openCards = [];
-var remainingMoves = 3;
+var remainingMoves = 12;
+var cardPairs = [];
 
 function resetGame() {
   var stars = document.getElementById("stars");
@@ -30,19 +31,21 @@ function resetGame() {
     deckFragment.appendChild(li);
   }
   deck.appendChild(deckFragment);
-  remainingMoves = 3;
+  remainingMoves = 12;
   moves.innerHTML = remainingMoves;
   while (stars.children.length > 0) {
     var firstStar = stars.children[0];
     stars.removeChild(firstStar);
   }
-  for (var i = 0; i < remainingMoves; i++) {
+  for (var i = 0; i < 3; i++) {
     var li = document.createElement('li');
     var star = document.createElement('i');
     star.classList.add("fa", "fa-star");
     li.appendChild(star);
     stars.appendChild(li);
   }
+  openCards = [];
+  cardPairs = [];
 }
 
 /*removes stars upon getting an incorrect match*/
@@ -51,7 +54,9 @@ function removeStar() {
   var stars = document.getElementById("stars");
   var moves = document.getElementById("moves");
   remainingMoves = remainingMoves - 1;
-  stars.removeChild(stars.children[0]);
+  if (remainingMoves%4 === 0) {
+    stars.removeChild(stars.children[0]);
+  }
   moves.innerHTML = remainingMoves;
   if (remainingMoves === 0) {
     alert("Try again?");
@@ -85,7 +90,7 @@ function addCard(card) {
   var card = event.target;
   card.classList.add("open", "show");
   openCards.push(card);
-  setTimeout(matchCard, 1500);
+  setTimeout(matchCard, 1400);
 }
 
 function matchCard() {
@@ -95,6 +100,9 @@ function matchCard() {
     if (firstCard.firstChild.classList[1] == secondCard.firstChild.classList[1]) {
       firstCard.classList.add("match");
       secondCard.classList.add("match");
+      cardPairs.push(firstCard);
+      cardPairs.push(secondCard);
+      scoreKeeper();
     } else {
       firstCard.classList.remove("open", "show");
       secondCard.classList.remove("open", "show");
@@ -104,6 +112,14 @@ function matchCard() {
   }
 }
 
+function scoreKeeper() {
+  if (cardPairs.length === 16) {
+    alert("Congratulations, you won bingo!");
+    resetGame();
+  }
+}
+
+window.onload = resetGame;
 
 
 /*

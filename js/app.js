@@ -5,6 +5,7 @@
 var openCards = [];
 var remainingMoves = 12;
 var cardPairs = [];
+var timer;
 
 function resetGame() {
   var stars = document.getElementById("stars");
@@ -90,7 +91,8 @@ function addCard(card) {
   var card = event.target;
   card.classList.add("open", "show");
   openCards.push(card);
-  setTimeout(matchCard, 1400);
+  clearTimeout(timer);
+  timer = setTimeout(matchCard, 1500);
 }
 
 function matchCard() {

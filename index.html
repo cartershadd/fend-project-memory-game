@@ -23,11 +23,22 @@
         	</ul>
 
         	<span id="moves" class="moves">3</span> Moves
+          <span id="stopwatch" class="stopwatch">0</span>
 
             <div onclick="resetGame()" class="restart">
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
+
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <p>Congratulations! You won.</p>
+            <span id="final-time"></span>
+            <br>
+            <span id="final-star"></span>
+          </div>
+        </div>
 
         <ul id="deck" class="deck">
             <li onclick="cardFlip(event)" class="card">

@@ -6,10 +6,21 @@ var openCards = [];
 var remainingMoves = 12;
 var cardPairs = [];
 var timer;
+var startTime;
+var updateTimerInterval;
+var modal = document.getElementById("myModal");
+var span = document.getElementById("close");
+span.onclick = function() {
+  resetGame();
+  modal.style.display = "none";
+}
 
 function resetGame() {
   var stars = document.getElementById("stars");
   var moves = document.getElementById("moves");
+  var newDate = new Date();
+  startTime = newDate.getTime();
+  updateTimerInterval = setInterval(updateTimer, 25);
   var imageList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt",
     "fa-cube", "fa-anchor", "fa-leaf", "fa-bomb", "fa-diamond",
     "fa-paper-plane-o", "fa-bicycle", "fa-bolt",
@@ -73,6 +84,7 @@ function removeStar() {
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -120,9 +132,34 @@ function matchCard() {
 
 function scoreKeeper() {
   if (cardPairs.length === 16) {
-    alert("Congratulations, you won bingo!");
-    resetGame();
+    modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    var finalTime = document.getElementById("final-time");
+    var finalStar = document.getElementById("final-star");
+    var newDate = new Date();
+    var currentTime = newDate.getTime();
+    var milliseconds = currentTime - startTime;
+    var seconds = Math.floor(milliseconds/1000);
+    var minutes = Math.floor(seconds/60);
+    milliseconds = milliseconds - (seconds*1000);
+    seconds = seconds - (minutes*60);
+    finalTime.innerHTML = "Your time was " + minutes + ":" + seconds + ":" + milliseconds;
+    finalStar.innerHTML = "Your star rating was " + stars.children.length + " stars.";
   }
+}
+
+/*creates and udates a timer while game is in play*/
+
+function updateTimer() {
+  var newDate = new Date();
+  var currentTime = newDate.getTime();
+  var watch = document.getElementById('stopwatch');
+  var milliseconds = currentTime - startTime;
+  var seconds = Math.floor(milliseconds/1000);
+  var minutes = Math.floor(seconds/60);
+  milliseconds = milliseconds - (seconds*1000);
+  seconds = seconds - (minutes*60);
+  watch.innerHTML = minutes + ":" + seconds + ":" + milliseconds;
 }
 
 window.onload = resetGame;

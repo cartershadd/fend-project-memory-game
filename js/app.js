@@ -20,6 +20,9 @@ function resetGame() {
   var moves = document.getElementById("moves");
   var newDate = new Date();
   startTime = newDate.getTime();
+  // removes previous timer
+  clearTimeout(updateTimerInterval);
+  // updates timer 40 times a second
   updateTimerInterval = setInterval(updateTimer, 25);
   var imageList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt",
     "fa-cube", "fa-anchor", "fa-leaf", "fa-bomb", "fa-diamond",
@@ -69,6 +72,7 @@ function removeStar() {
   if (remainingMoves%4 === 0) {
     stars.removeChild(stars.children[0]);
   }
+  // popup alert when no moves remain.
   moves.innerHTML = remainingMoves;
   if (remainingMoves === 0) {
     alert("Try again?");
@@ -105,6 +109,7 @@ function addCard(card) {
     if (openCards.indexOf(card) === -1 && card.tagName === "LI") {
       card.classList.add("open", "show");
       openCards.push(card);
+      // clears timer for matchCard function once second choice of card is made
       clearTimeout(timer);
       timer = setTimeout(matchCard, 1500);
     }
@@ -122,17 +127,21 @@ function matchCard() {
       cardPairs.push(secondCard);
       scoreKeeper();
     } else {
+      // flip non-matching cards facedown again.
       firstCard.classList.remove("open", "show");
       secondCard.classList.remove("open", "show");
       removeStar();
     }
+    // reset openCard list to empty.
     openCards = [];
   }
 }
 
+/*creates a space for the time and star rating to be displayed on the Modal
+that pops up when you get all matches correct and win.*/
+
 function scoreKeeper() {
   if (cardPairs.length === 16) {
-    modal = document.getElementById("myModal");
     modal.style.display = "block";
     var finalTime = document.getElementById("final-time");
     var finalStar = document.getElementById("final-star");

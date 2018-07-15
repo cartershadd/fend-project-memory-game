@@ -1,7 +1,63 @@
 /*
  * Create a list that holds all of your cards
+ * Resets moves and star counter
  */
+var openCards = [];
+var remainingMoves = 3;
 
+function resetGame() {
+  var stars = document.getElementById("stars");
+  var moves = document.getElementById("moves");
+  var imageList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt",
+    "fa-cube", "fa-anchor", "fa-leaf", "fa-bomb", "fa-diamond",
+    "fa-paper-plane-o", "fa-bicycle", "fa-bolt",
+    "fa-cube", "fa-bicycle", "fa-leaf", "fa-bomb"];
+  imageList = shuffle(imageList);
+  var deck = document.getElementById("deck");
+  while (deck.children.length > 0) {
+    var firstChild = deck.children[0];
+    deck.removeChild(firstChild);
+  }
+  var deckFragment = document.createDocumentFragment();
+  for (var i = 0; i < 16; i++) {
+    var li = document.createElement('li');
+    li.classList.add("card");
+    var iElement = document.createElement('i');
+    iElement.classList.add("fa");
+    iElement.classList.add(imageList[i]);
+    li.appendChild(iElement);
+    li.addEventListener('click', addCard);
+    deckFragment.appendChild(li);
+  }
+  deck.appendChild(deckFragment);
+  remainingMoves = 3;
+  moves.innerHTML = remainingMoves;
+  while (stars.children.length > 0) {
+    var firstStar = stars.children[0];
+    stars.removeChild(firstStar);
+  }
+  for (var i = 0; i < remainingMoves; i++) {
+    var li = document.createElement('li');
+    var star = document.createElement('i');
+    star.classList.add("fa", "fa-star");
+    li.appendChild(star);
+    stars.appendChild(li);
+  }
+}
+
+/*removes stars upon getting an incorrect match*/
+
+function removeStar() {
+  var stars = document.getElementById("stars");
+  var moves = document.getElementById("moves");
+  remainingMoves = remainingMoves - 1;
+  stars.removeChild(stars.children[0]);
+  moves.innerHTML = remainingMoves;
+  if (remainingMoves === 0) {
+    alert("Try again?");
+    resetGame();
+  }
+}
 
 /*
  * Display the cards on the page
@@ -24,6 +80,30 @@ function shuffle(array) {
 
     return array;
 }
+
+function addCard(card) {
+  var card = event.target;
+  card.classList.add("open", "show");
+  openCards.push(card);
+  setTimeout(matchCard, 1500);
+}
+
+function matchCard() {
+  if (openCards.length === 2) {
+    var firstCard = openCards[0];
+    var secondCard = openCards[1];
+    if (firstCard.firstChild.classList[1] == secondCard.firstChild.classList[1]) {
+      firstCard.classList.add("match");
+      secondCard.classList.add("match");
+    } else {
+      firstCard.classList.remove("open", "show");
+      secondCard.classList.remove("open", "show");
+      removeStar();
+    }
+    openCards = [];
+  }
+}
+
 
 
 /*

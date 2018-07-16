@@ -8,8 +8,8 @@ var cardPairs = [];
 var timer;
 var startTime;
 var updateTimerInterval;
-var modal = document.getElementById("myModal");
-var span = document.getElementById("close");
+var modal = document.getElementById("winner-modal");
+var span = document.getElementById("close-box");
 span.onclick = function() {
   resetGame();
   modal.style.display = "none";
